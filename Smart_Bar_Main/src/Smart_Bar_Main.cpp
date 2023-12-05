@@ -81,7 +81,7 @@ void condimentDispenser();
     display.display();
 
     //Setting Encoder LEDs
-    pinMode(BUTTONPIN, INPUT);
+    //pinMode(BUTTONPIN, INPUT_PULLDOWN);
     pinMode(GREENLED, OUTPUT);
     pinMode(REDLED, OUTPUT);
     pinMode(BLUELED, OUTPUT);
@@ -106,28 +106,27 @@ void condimentDispenser();
     TimeOnly = DateTime.substring(11,19); //Extract the time from the DateTime String
     DateOnly = DateTime.substring(0,10); //Extracts the date from the DateTIme
 
-
     // Setting the Encoder
     digitalWrite(GREENLED, HIGH); // Set the green LED to ON
-    digitalWrite(REDLED, HIGH);  // Set the red LED to OFF
+    digitalWrite(REDLED, LOW);  // Set the red LED to OFF
     digitalWrite(BLUELED, LOW);  // Set the red LED to OFF
+    delay(1000);
 
     //Setting NeoPixel Status Ring
     for (i = 0; i<numPixels; i++) {
-            pixel.setPixelColor(i, 255, 255, 255);
-            pixel.setBrightness(30);
-            pixel.show();
-            pixel.clear();
+      pixel.setPixelColor(i, 255, 255, 255);
+      pixel.setBrightness(30);
+      pixel.show();
+      pixel.clear();
     }
 
     //Testing Pump
     digitalWrite(pump1, HIGH);
-    
-
+  
     position = myEnc.read(); // Reading Encoder Position
     Serial.printf("position: %i\n",position);// Print Position on Serial Monitor
 
-    if (position != prevEnc) {
+    //if (position != prevEnc) {
     prevEnc = position;
     switch (position) {
       case 4:
@@ -141,7 +140,7 @@ void condimentDispenser();
             digitalWrite(REDLED, HIGH);  // Set the red LED to OFF
             digitalWrite(BLUELED, HIGH);
             Serial.printf("Button Clicked on \n");
-            
+            delay(1000);
           } 
         break;
       case 8:
@@ -169,7 +168,7 @@ void condimentDispenser();
         display.setCursor(0, 15);
         display.display();
       }
-    }
+    //}
   }
   void cocktailDispenser() {
     // Setting Pump Variables and Parameters

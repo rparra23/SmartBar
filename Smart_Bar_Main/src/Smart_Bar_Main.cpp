@@ -25,32 +25,36 @@
 #include "Stepper.h"
 #include <neopixel.h>
 
-// Declaring NeoPixel Object
-//Adafruit_NeoPixel pixel(numPixels, SPI1, WS2812B); // Use D6 for NeoPixels (SPI1)
+//******** SETTING INTS & OBJECTS FOR ALL CONNECTED DEVICES ************//
 
-//Setting Encoder PINS
-int PINA = D17;
-int PINB = D18;
-const int REDLED = D8;
-const int GREENLED = D9;
-const int BLUELED = D15;
-const int BUTTONPIN = D16;
-  //Setting Class for Encoder
-  class Encoder myEnc(PINA,PINB);
-  //Setting Button
-  Button button(BUTTONPIN);
+  // Setting NEOPIXEL Variables
+    int numPixels = 16;
+    Adafruit_NeoPixel pixel(numPixels, SPI1, WS2812B); // Use D6 for NeoPixels (SPI1)
 
-//Setting Time Varibales
-unsigned long startTime;
-String DateTime, TimeOnly, DateOnly;
+  //Setting Encoder PINS
+    int PINA = D17;
+    int PINB = D18;
+    const int REDLED = D8;
+    const int GREENLED = D9;
+    const int BLUELED = D15;
+    const int BUTTONPIN = D16;
+      //Setting Class Encoder
+        class Encoder myEnc(PINA,PINB);
+      //Setting Button
+        Button button(BUTTONPIN);
 
-//Setting OLED Display Objects
-Adafruit_SSD1306 display(-1);
+  //Setting Time Varibales
+    unsigned long startTime;
+    String DateTime, TimeOnly, DateOnly;
 
-// Setting WiFi Connection Protocols
+  //Setting OLED Display Objects
+    Adafruit_SSD1306 display(-1);
+
+
+//******* SETTING UP WIRELESS CONNECTION PROTOCOLS *******//
 SYSTEM_MODE(AUTOMATIC);
 
-// Calling Functions
+//****** ESTABLISHING FUNCTIONS *******//
 void cocktailSelector();
 void cocktailDispenser();
 void condimentDispenser();
@@ -95,6 +99,7 @@ void condimentDispenser();
     static int prevEnc;
     static int position;
     int pump1 = D14;
+    int i;
 
     // Decalring Time Parameters
     DateTime = Time.timeStr();    //Current Date and Time from Particle Time Class
@@ -106,6 +111,14 @@ void condimentDispenser();
     digitalWrite(GREENLED, HIGH); // Set the green LED to ON
     digitalWrite(REDLED, HIGH);  // Set the red LED to OFF
     digitalWrite(BLUELED, LOW);  // Set the red LED to OFF
+
+    //Setting NeoPixel Status Ring
+    for (i = 0; i<numPixels; i++) {
+            pixel.setPixelColor(i, 255, 255, 255);
+            pixel.setBrightness(30);
+            pixel.show();
+            pixel.clear();
+    }
 
     //Testing Pump
     digitalWrite(pump1, HIGH);
@@ -158,7 +171,6 @@ void condimentDispenser();
       }
     }
   }
-
   void cocktailDispenser() {
     // Setting Pump Variables and Parameters
     /* int tequilaPump = D12;

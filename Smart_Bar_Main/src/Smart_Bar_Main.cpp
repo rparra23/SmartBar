@@ -62,7 +62,7 @@ SYSTEM_MODE(AUTOMATIC);
 
 //****** ESTABLISHING FUNCTIONS *******//
 void cocktailSelector();
-void cocktailDispenser();
+void margaritaFunction();
 void condimentDispenser();
 
   void setup() {
@@ -71,7 +71,6 @@ void condimentDispenser();
     waitFor(Serial.isConnected,10000); //waits for Serial Monitor
     Serial.println("Ready to Go"); //Prints that Serial Monitor is Ready to go
     
-
     //Setting Time Millis
     startTime = millis(); //get the current time;
     Time.zone(-7);        //MST = -7, MDT = -6
@@ -107,7 +106,6 @@ void condimentDispenser();
     digitalWrite(pump3, HIGH); //Testing Pump
     digitalWrite(pump4, HIGH); //Testing Pump
     cocktailSelector();
-    cocktailDispenser();
   }
 
   void cocktailSelector(){
@@ -122,7 +120,7 @@ void condimentDispenser();
     TimeOnly = DateTime.substring(11,19); //Extract the time from the DateTime String
     DateOnly = DateTime.substring(0,10); //Extracts the date from the DateTIme
 
-    // Setting the Encoder Default Light
+    // Setting the Encoder Default Light to Purple
     digitalWrite(GREENLED, HIGH); // Set the green LED to ON
     digitalWrite(REDLED, LOW);  // Set the red LED to OFF
     digitalWrite(BLUELED, LOW);  // Set the red LED to OFF
@@ -150,20 +148,8 @@ void condimentDispenser();
             digitalWrite(REDLED, HIGH);  
             digitalWrite(BLUELED, LOW);
             Serial.printf("Button Clicked on \n");
-            delay(1000);
 
-            //cocktailDispenser();
-
-            digitalWrite(pump1, HIGH); //Testing Pump
-            delay(2000);
-            digitalWrite(pump1, LOW); //Testing Pump
-
-            condimentDispenser();
-            digitalWrite(GREENLED, LOW); 
-            digitalWrite(REDLED, HIGH);  
-            digitalWrite(BLUELED, HIGH);
-            delay(1000);
-
+            margaritaFunction();
           } 
         break;
       case 8:
@@ -245,34 +231,27 @@ void condimentDispenser();
   //}
   }
 
-  void cocktailDispenser() {
-    // Setting Pump Ints
-    int pump1 = D19;
+  void margaritaFunction() {
+    digitalWrite(pump4, HIGH); //Testing Pump
+    digitalWrite(pump2, HIGH); //Testing Pump
+    delay(7000);
+    digitalWrite(pump4, LOW); //Testing Pump
+    digitalWrite(pump2, LOW); //Testing Pump
 
-    // Setting Scale Ints
-    unsigned int last;
-    int DT = D2;
-    int CLK = D0;
-
-      // Activating Pump
-      digitalWrite(pump1, HIGH); //Testing Pump
-      delay(2000);
-      digitalWrite(pump1, LOW); //Testing Pump
-
-      // Activating Condiment Dispenser
-      condimentDispenser();
-
-      // Activating Encoder Status LEDs
-      digitalWrite(GREENLED, LOW); 
-      digitalWrite(REDLED, HIGH);  
-      digitalWrite(BLUELED, HIGH);
-      delay(1000);
+    delay(10000);
+    condimentDispenser();
+    delay(4000);
+    digitalWrite(GREENLED, LOW); 
+    digitalWrite(REDLED, HIGH);  
+    digitalWrite(BLUELED, HIGH);
+    delay(1000);
+    
   }
 
   void condimentDispenser(){
       // Setting Steppers Parameters and Variables
       int speed = 15;
-      int twoRotation = -4096;
+      int twoRotation = -5096;
       int spr = 2048;
       int IN1 = D3;
       int IN2 = D4;
